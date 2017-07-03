@@ -52,5 +52,47 @@ Rails.application.routes.draw do
 end
 ```
 ## 5. Getting up and running
+* Add new REST resources to `config/routes.rb`
+``` ruby
+Rails.application.routes.draw do
+  get 'welcome/index'
+  resources :articles   # Creates defined routes, all RESTful actions, for "articles"
+  root 'welcome#index'
+end
+```
+```
+$ bin/rails routes
 
+      Prefix Verb   URI Pattern                  Controller#Action
+    articles GET    /articles(.:format)          articles#index
+             POST   /articles(.:format)          articles#create
+ new_article GET    /articles/new(.:format)      articles#new
+edit_article GET    /articles/:id/edit(.:format) articles#edit
+     article GET    /articles/:id(.:format)      articles#show
+             PATCH  /articles/:id(.:format)      articles#update
+             PUT    /articles/:id(.:format)      articles#update
+             DELETE /articles/:id(.:format)      articles#destroy
+        root GET    /                            welcome#index
+```
+### 5.1 Laying down the groundwork
+* Navigate to `http://localhost:3000/articles/new` and receive a routing error.
+* Route must have a controller in place to serve the request. Create the `ArticlesController`:
+```
+$ bin/rails generate controller Articles
+```
+* Refresh `/articles/new` and receive a different error: unknown action 'new'.
+* Add a 'new' action in `app/controllers/articles_controller.rb`:
+``` ruby
+class ArticlesController < ApplicationController
+  def new
+  end
+end
+```
+* Refresh `/articles/new` and receive (again) a different error: unknown format or template for 'new'.
+* Create a new view file at `app/views/articles/new.html.erb`:
+``` html
+<h1>New Article</h1>
+```
+* You should now see no errors and the page loads successfully with the 'New Article' h1 heading.
+### 5.2 The first form
 
