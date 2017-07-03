@@ -44,4 +44,13 @@ $ bin/rails generate controller Welcome index
 <h1>Hello, Rails!</h1>
 ```
 ### 4.3 Setting the Application Home Page
+* Open `config/routes.rb`
+``` ruby
+Rails.application.routes.draw do
+  get 'welcome/index'   # HTTP Get Request URI
+  root 'welcome#index'  # map requests at root to Welcome controller's index action
+end
+```
+## 5. Getting up and running
+
 
