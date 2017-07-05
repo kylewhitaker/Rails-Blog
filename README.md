@@ -95,4 +95,46 @@ end
 ```
 * You should now see no errors and the page loads successfully with the 'New Article' h1 heading.
 ### 5.2 The first form
-
+* Use Ruby's form builder helper method `form_for`.
+* Add the following code to `app/views/articles/new.html.erb`:
+``` html
+<%= form_for :article do |f| %>
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :text %><br>
+    <%= f.text_area :text %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+```
+* Inspect HTML, find action='articles/new'. We actually want to redirect to 'articles' POST.
+``` html
+<%= form_for :article, url: articles_path do |f| %>
+```
+* Fill in the form and submit. Error. We must write code for ArticlesController "create" method.
+### 5.3 Creating articles
+``` ruby
+class ArticlesController < ApplicationController
+  def new
+  end
+ 
+  def create
+  end
+end
+```
+* Error gone, but `204 No Content` returned by default if no response specified in code.
+``` ruby
+def create
+  render plain: params[:article].inspect
+end
+```
+* Create a new article and click submit. Browser window should display:
+```
+<ActionController::Parameters {"title"=>"Harry Potter", "text"=>"A book about a boy."} permitted: false>
+```
+### 5.4 Creating the Article model
