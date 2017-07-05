@@ -153,3 +153,30 @@ $ bin/rails db:migrate
 $ bin/rails db:migrate RAILS_ENV=production
 ```
 ### 5.6 Saving data in the controller
+* Update create method in ArticlesController to use model to save new articles to the database.
+``` ruby
+def create
+  @article = Article.new(params[:article])
+  @article.save
+  redirect_to @article
+end
+```
+* Save a new article. Error: Forbidden Attributes. Rails security feature "strong parameters".
+* Refactor create method to be:
+``` ruby
+@article = Article.new(params.require(:article).permit(:title, :text))
+```
+* Next, refactor out so parameter permission can be used by multiple methods, such as create & update.
+``` ruby
+def create
+  @article = Article.new(article_params)
+  @article.save
+  redirect_to @article
+end
+
+private
+  def article_params
+    params.require(:article).permit(:title, :text)
+  end
+```
+### 5.7 Showing articles
