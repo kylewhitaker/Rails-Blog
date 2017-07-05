@@ -138,3 +138,9 @@ end
 <ActionController::Parameters {"title"=>"Harry Potter", "text"=>"A book about a boy."} permitted: false>
 ```
 ### 5.4 Creating the Article model
+* Models in Rails use a singular name, and their corresponding database tables use a plural name. Rails provides a generator for creating models, which most Rails developers tend to use when creating new models. To create the new model, run this command in your terminal:
+```
+$ bin/rails generate model Article title:string text:text
+```
+* With that command we told Rails that we want an Article model, together with a title attribute of type string, and a text attribute of type text. Those attributes are automatically added to the articles table in the database and mapped to the Article model. Rails created a bunch of files, of which we are most interested in two: `app/models/article.rb` and `db/migrate/20170106133411_create_articles.rb`
+### 5.5 Running a migration
