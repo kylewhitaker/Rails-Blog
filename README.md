@@ -180,3 +180,23 @@ private
   end
 ```
 ### 5.7 Showing articles
+* Add the *show* action in `app/controllers/articles_controller.rb`
+``` ruby
+  def show
+    @article = Article.find(params[:id])
+  end
+```
+* Create a new *view* file `app/views/articles/show.html.erb`
+``` html
+<p>
+  <strong>Title:</strong>
+  <%= @article.title %>
+</p>
+<p>
+  <strong>Text:</strong>
+  <%= @article.text %>
+</p>
+```
+* Create a new article: `http://localhost:3000/articles/new`
+* Show an article: `http://localhost:3000/articles/1`
+### 5.8 Listing all articles
