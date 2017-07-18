@@ -197,6 +197,6 @@ private
   <%= @article.text %>
 </p>
 ```
-* Create a new article: `http://localhost:3000/articles/new`
-* Show an article: `http://localhost:3000/articles/1`
+* Create a new article: http://localhost:3000/articles/new
+* Show an article: http://localhost:3000/articles/1
 ### 5.8 Listing all articles
