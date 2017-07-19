@@ -225,4 +225,23 @@ end
 ```
 * Now, view all the articles: http://localhost:3000/articles
 ### 5.9 Adding links
-
+* Add a link in `app/views/welcome/index.html.erb` on welcome page to view all articles
+``` html
+<h1>Hello, Rails!</h1>
+<%= link_to 'My Blog', controller: 'articles' %>
+```
+* Rails' built-in view helper **link_to** takes display text and path
+* Add a link on welcome page to create a new article
+``` html
+<%= link_to 'New Article', new_article_path %>
+```
+* Now, add a link (beneath the form) to go back to articles index in `app/views/articles/new.html.erb`
+``` html
+<%= link_to 'Back', articles_path %>
+```
+* Finally, add a link to go from single article view back to articles index in `app/views/articles/show.html.erb`
+``` html
+<%= link_to 'Back', articles_path %>
+```
+* No need to specify controller if linking to action in same controller (Rails default)
+### 5.10 Adding Some Validation
