@@ -182,9 +182,9 @@ private
 ### 5.7 Showing articles
 * Add the *show* action in `app/controllers/articles_controller.rb`
 ``` ruby
-  def show
-    @article = Article.find(params[:id])
-  end
+def show
+  @article = Article.find(params[:id])
+end
 ```
 * Create a new *view* file `app/views/articles/show.html.erb`
 ``` html
@@ -200,3 +200,29 @@ private
 * Create a new article: http://localhost:3000/articles/new
 * Show an article: http://localhost:3000/articles/1
 ### 5.8 Listing all articles
+* Add the *index* action in `app/controllers/articles_controller.rb`
+``` ruby
+def index
+  @articles = Article.all
+end
+```
+* Create a new *view* file `app/views/articles/index.html.erb`
+``` html
+<h1>Listing articles</h1>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Text</th>
+  </tr>
+  <% @articles.each do |article| %>
+    <tr>
+      <td><%= article.title %></td>
+      <td><%= article.text %></td>
+      <td><%= link_to 'Show', article_path(article) %></td>
+    </tr>
+  <% end %>
+</table>
+```
+* Now, view all the articles: http://localhost:3000/articles
+### 5.9 Adding links
+
