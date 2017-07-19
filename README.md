@@ -245,3 +245,44 @@ end
 ```
 * No need to specify controller if linking to action in same controller (Rails default)
 ### 5.10 Adding Some Validation
+* Rails provides data validation sent to models. Within `app/models/article.rb` add:
+``` ruby
+validates :title, presence: true,
+                  length: { minimum: 5 }
+```
+* Rails validation covered in detail [here](http://guides.rubyonrails.org/active_record_validations.html).
+* With validation in place, **@article.save** will return **false**. Within `app/controllers/articles_controller.rb` add:
+``` ruby
+def new
+  @article = Article.new
+end
+ 
+def create
+  @article = Article.new(article_params)
+  if @article.save
+    redirect_to @article
+  else
+    render 'new'
+  end
+end
+```
+* Instead of **redirect_to**, we use **render** which passes the new article arguments into another new article request form.
+* Produce an error message if the user makes a bad request for a new article in `app/views/articles/new.html.erb`
+``` html
+<% if @article.errors.any? %>
+  <div id="error_explanation">
+    <h2>
+      <%= pluralize(@article.errors.count, "error") %> prohibited
+      this article from being saved:
+    </h2>
+    <ul>
+      <% @article.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+```
+* The reason why we added **@article = Article.new** in the ArticlesController is that otherwise **@article** would be *nil* in our view, and calling **@article.errors.any?** would throw an error.
+* Rails automatically wraps fields that contain an error with a div with class field_with_errors. You can define a css rule to make them standout.
+### 5.11 Updating Articles
