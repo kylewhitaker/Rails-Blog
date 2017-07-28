@@ -286,3 +286,67 @@ end
 * The reason why we added **@article = Article.new** in the ArticlesController is that otherwise **@article** would be *nil* in our view, and calling **@article.errors.any?** would throw an error.
 * Rails automatically wraps fields that contain an error with a div with class field_with_errors. You can define a css rule to make them standout.
 ### 5.11 Updating Articles
+* Add an *edit* action (between *new* and *create*) to the ArticlesController
+``` ruby
+def edit
+  @article = Article.find(params[:id])
+end
+```
+* Create a new *view* file called `app/views/articles/edit.html.erb`
+``` html
+<h1>Edit article</h1>
+<%= form_for(@article) do |f| %>
+  <% if @article.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@article.errors.count, "error") %> prohibited
+        this article from being saved:
+      </h2>
+      <ul>
+        <% @article.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <p>
+    <%= f.label :title %><br>
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :text %><br>
+    <%= f.text_area :text %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+<%= link_to 'Back', articles_path %>
+```
+* Add an *update* method (between *create* and the private method) in `app/controllers/articles_controller.rb.`
+``` ruby
+def update
+  @article = Article.find(params[:id])
+  if @article.update(article_params)
+    redirect_to @article
+  else
+    render 'edit'
+  end
+end
+```
+* Finally, show a link to the *edit* action via `app/views/articles/index.html.erb` and make it appear next to the *show* link
+``` html
+<% @articles.each do |article| %>
+  <tr>
+    <td><%= article.title %></td>
+    <td><%= article.text %></td>
+    <td><%= link_to 'Show', article_path(article) %></td>
+    <td><%= link_to 'Edit', edit_article_path(article) %></td>
+  </tr>
+<% end %>
+```
+* And also add an *edit* link in `app/views/articles/show.html.erb` at the bottom so that there's also an *edit* link on the article's page
+``` html
+<%= link_to 'Edit', edit_article_path(@article) %> |
+<%= link_to 'Back', articles_path %>
+```
